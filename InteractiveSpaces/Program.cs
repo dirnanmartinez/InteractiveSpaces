@@ -20,6 +20,7 @@ builder.Host.ConfigureLogging(logging =>
 
 // Add services to the container.
 // En caso de que el entorno de despliegue sea el de desarrollo todo funcionara como al comienzo 
+/*
 if (conexion == "Production")
 {
     builder.Services.AddDbContext<ApplicationDBContext>(options =>
@@ -47,6 +48,22 @@ else
         options.UseSqlServer(builder.Configuration.GetConnectionString("SQlServerLocalDB") ?? throw new InvalidOperationException("Connection string 'SQlServerLocalDB' not found.")));
 
 }
+*/
+
+if(conexion != "Development")
+{
+    services.AddDbContext<ApplicationDBContext>(options =>
+    options.UseSqlServer(
+        Configuration.GetConnectionString("serviciotfg")));
+}
+else
+{
+    builder.Services.AddDbContext<ApplicationDBContext>(options =>
+        options.UseSqlServer(builder.Configuration.GetConnectionString("SQlServerLocalDB") ?? throw new InvalidOperationException("Connection string 'SQlServerLocalDB' not found.")));
+
+}
+
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
